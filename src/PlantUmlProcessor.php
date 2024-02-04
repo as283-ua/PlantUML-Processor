@@ -2,15 +2,12 @@
 
 namespace As283\PlantUmlProcessor;
 
-class PlantUmlProcessor
+function parse(string $schema): void
 {
-    public function parse(string $schema): void
-    {
-        return;
-    }
+    return;
+}
 
-    public function serialize($schema): string
-    {
-        return '';
-    }
+function serialize($schema): string
+{
+    return '';
 }
