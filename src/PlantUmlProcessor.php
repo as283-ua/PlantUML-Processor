@@ -1,5 +1,7 @@
 <?php
 
+namespace As283\PlantUmlProcessor;
+
 class PlantUmlProcessor
 {
     public function parse(string $schema): void
