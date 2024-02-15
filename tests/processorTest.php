@@ -1,15 +1,14 @@
 <?php
 namespace As283\ArtisanPlantuml\Tests;
 
-use function As283\PlantUmlProcessor\parse;
-use function As283\PlantUmlProcessor\serialize;
+use As283\PlantUmlProcessor\PlantUmlProcessor;
 use PHPUnit\Framework\TestCase;
 
 class processorTest extends TestCase
 {
     public function testParseFail()
     {
-        $schema = parse("hello");
+        $schema = PlantUmlProcessor::parse("hello");
         
         $this->assertTrue($schema == null);
     }
@@ -19,7 +18,7 @@ class processorTest extends TestCase
         $schemaText = "@startuml
         Class01 <|-- Class02
         @enduml";
-        $schema = parse($schemaText);
+        $schema = PlantUmlProcessor::parse($schemaText);
         
         $this->assertTrue($schema != null);
     }
@@ -48,15 +47,23 @@ class processorTest extends TestCase
             id: int
             nombre: string
         }
+
+        Direccion \"0, 1\" -- \"0, 1\" Usuario
+
+        Usuario \"*\" -- \"1\" Rol
         @enduml";
-        $schema = parse($schemaText);
+        $schema = PlantUmlProcessor::parse($schemaText);
+
+        print_r($schema);
         
         $this->assertTrue($schema != null);
+        $this->assertEquals(3, count($schema->classes));
+        $this->assertEquals(2, count($schema->relations));
     }
 
     public function testSerialize()
     {
-        serialize(null);
+        PlantUmlProcessor::serialize(null);
         $this->assertTrue(true);
     }
 }
