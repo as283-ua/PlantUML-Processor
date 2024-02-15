@@ -5,8 +5,14 @@ namespace As283\PlantUmlProcessor\Model;
 class ClassMetadata
 {
     public string $name;
-    public array $fields;
-    public array $methods;
+    /**
+     * @var Field[]
+     */
+    public $fields;
+    /**
+     * @var Method[]
+     */
+    public $methods;
 
     public function __construct()
     {
@@ -25,6 +31,7 @@ class ClassMetadata
 
     /**
      * @param \SimpleXMLElement $xmlClass
+     * @return ClassMetadata
      */
     public static function makeFromXmlElement($xmlClass)
     {
@@ -33,9 +40,19 @@ class ClassMetadata
         // TODO. implement this
 
         $classMetadata->name = $xmlClass->attributes()->name;
+
+        $classMetadata->fields = [];
         $fields = $xmlClass->{"Classifier.feature"}->Attribute;
-        $classMetadata->fields = null;
+
+        foreach ($fields as $field) {
+            $classMetadata->fields[] = Field::makeFromXmlElement($field);
+        }
+
+        //todo: implement for methods
         $methods = $xmlClass->{"Classifier.feature"}->Operation;
-        $classMetadata->methods = null;
+        $classMetadata->methods = [];
+
+        
+        return $classMetadata;
     }
 }

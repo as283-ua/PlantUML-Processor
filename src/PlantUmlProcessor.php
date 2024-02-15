@@ -59,9 +59,9 @@ class PlantUmlProcessor{
      */
     private static function buildClasses($classes){
         $result = [];
-        foreach ($classes as $class) {
-            $classMetadata = ClassMetadata::makeFromXmlElement($class);
-            array_push($result, $classMetadata);
+        foreach ($classes as $classXml) {
+            $classMetadata = ClassMetadata::makeFromXmlElement($classXml);
+            $result[] = $classMetadata;
         }
         return $result;
     }
@@ -72,9 +72,9 @@ class PlantUmlProcessor{
      */
     private static function buildRelations($relations, $classIds){
         $result = [];
-        foreach ($relations as $relation) {
-            $classMetadata = new Relation();
-            array_push($result, $classMetadata);
+        foreach ($relations as $relationXml) {
+            $relation = new Relation();
+            $result[] = $relation;
         }
         return $result;
     }

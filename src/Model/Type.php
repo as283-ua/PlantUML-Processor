@@ -12,4 +12,18 @@ enum Type
     case double;
     case Date;
     case DateTime;
+
+    public static function fromString($type){
+        $type = strtolower($type);
+        return match($type){
+            "string" => Type::string,
+            "int" => Type::int,
+            "float" => Type::float,
+            "bool" => Type::bool,
+            "double" => Type::double,
+            "Date" => Type::Date,
+            "DateTime" => Type::DateTime,
+            default => null
+        };
+    }
 }
