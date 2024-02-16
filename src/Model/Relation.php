@@ -15,4 +15,32 @@ class Relation{
      */
     public $to;
     public RelationType $type;
+
+    public function __construct(){}
+
+    /**
+     * @param \SimpleXMLElement $xmlRelation
+     * @param array[string]int $xmiIdIndex
+     * @return Relation
+     */
+    public static function makeFromXmlElement($xmlRelation, $xmiIdClassName){
+        $relation = new Relation();
+
+        $left = $xmlRelation->{"Association.connection"}->AssociationEnd[0];
+        $right = $xmlRelation->{"Association.connection"}->AssociationEnd[1];
+
+        $relation->from = [
+            $xmiIdClassName[$left->attributes()->type->__toString()], 
+            Cardinality::fromString($right->attributes()->name->__toString())
+        ];
+
+        $relation->to = [
+            $xmiIdClassName[$right->attributes()->type->__toString()], 
+            Cardinality::fromString($left->attributes()->name->__toString())
+        ];
+
+        $relation->type = RelationType::Association;
+
+        return $relation;
+    }
 }

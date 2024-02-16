@@ -42,8 +42,8 @@ class PlantUmlProcessor{
         $classes = $data->Class;
         $relations = $data->Association;
 
-        list($result->classes, $xmiIdIndex) = self::buildClasses($classes);
-        $result->relations = self::buildRelations($relations, $xmiIdIndex);
+        list($result->classes, $xmiIdClassName) = self::buildClasses($classes);
+        $result->relations = self::buildRelations($relations, $xmiIdClassName);
 
         return $result;
     }
@@ -55,33 +55,34 @@ class PlantUmlProcessor{
 
     /**
      * @param \SimpleXMLElement[] $classes
-     * @return array [ClassMetadata[], array]. First elements is a list of ClassMetadata objects, second 
+     * @return array{0:ClassMetadata[],{1}:array}. First elements is a list of ClassMetadata objects, second 
      * is an associative array with the xmi.id as key and the index of the class in the list as value
      */
     private static function buildClasses($classesXml){
         $classes = [];
-        $xmiIdIndex = [];
+        $xmiIdClassName = [];
 
         $i = 0;
         foreach ($classesXml as $classXml) {
             $classMetadata = ClassMetadata::makeFromXmlElement($classXml);
             $classes[] = $classMetadata; 
 
-            $xmiIdIndex[$classXml->attributes()->{"xmi.id"}->__toString()] = $i;
+            $xmiIdClassName[$classXml->attributes()->{"xmi.id"}->__toString()] = $classMetadata->name;
             $i++;
         }
-        return [$classes, $xmiIdIndex];
+        return [$classes, $xmiIdClassName];
     }
 
     /**
      * @param \SimpleXMLElement[] $relations
+     * @param array[string]int $xmiIdClassName
      * @return Relation[]
      */
-    private static function buildRelations($relationsXml, $classIds){
+    private static function buildRelations($relationsXml, $xmiIdClassName){
         // print_r($relationsXml);
         $result = [];
         foreach ($relationsXml as $relationXml) {
-            $relation = new Relation();
+            $relation = Relation::makeFromXmlElement($relationXml, $xmiIdClassName);
             $result[] = $relation;
         }
         return $result;
