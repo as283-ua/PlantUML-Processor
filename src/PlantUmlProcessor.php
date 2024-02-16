@@ -48,9 +48,46 @@ class PlantUmlProcessor{
         return $result;
     }
 
+    /**
+     * @param Schema $schema Schema object containing the UML classes and relations
+     * @return string Stringified plantuml schema
+     */
     public static function serialize($schema): string
     {
+        $result = "@startuml\n";
+
+        foreach ($schema->classes as $class) {
+            $result .= self::serializeClass($class);
+        }
+
+        $result .= "\n";
+
+        foreach ($schema->relations as $relation) {
+            $result .= self::serializeRelation($relation);
+        }
+
+        $result .= "@enduml\n";
         return '';
+    }
+
+    /**
+     * @param ClassMetadata $class
+     * @return string
+     */
+    private static function serializeClass($class){
+        $result = "class " . $class->name . " {\n";
+        foreach ($class->fields as $field) {
+            $result .= "\t" . $field->__toString();
+        }
+        $result .= "}\n\n";
+    }
+
+    /**
+     * @param Relation $relation
+     * @return string
+     */
+    private static function serializeRelation($relation){
+        return $relation->__toString();
     }
 
     /**

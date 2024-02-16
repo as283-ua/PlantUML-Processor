@@ -43,4 +43,8 @@ class Relation{
 
         return $relation;
     }
+
+    public function __toString(){
+        return $this->from[0] . " " . $this->to[1] . " " . $this->type->toString() . " " . $this->from[1] . $this->to[0] . "\n";
+    }
 }

@@ -62,6 +62,14 @@ class Field {
 
     public function __toString()
     {
-        return $this->visibility . " " . $this->type . " " . $this->name;
+        $str = "";
+        if($this->visibility != null){
+            $str .= $this->visibility . " ";
+        }
+        if($this->type != null){
+            $str .= $this->type . " ";
+        }
+        $str .= $this->name;
+        return $str;
     }
 }
