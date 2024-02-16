@@ -12,7 +12,7 @@ class PlantUmlProcessor{
      * @param string $schema String containing the plantuml schema
      * @return Schema|null Returns a Schema object if the parsing was successful, null otherwise
      */
-    public static function parse(string $schema): Schema | null
+    public static function parse(string $schema)
     {
         /**
          * @var Schema $result

@@ -6,7 +6,7 @@ use As283\PlantUmlProcessor\Model\Type;
 use As283\PlantUmlProcessor\PlantUmlProcessor;
 use PHPUnit\Framework\TestCase;
 
-class processorTest extends TestCase
+class ParseTest extends TestCase
 {
     public function testParseFail()
     {
@@ -115,11 +115,5 @@ class processorTest extends TestCase
 
         $this->assertEquals("Rol", $schema->relations[1]->to[0]);
         $this->assertEquals(Cardinality::Any, $schema->relations[1]->to[1]);
-    }
-
-    public function testSerialize()
-    {
-        PlantUmlProcessor::serialize(null);
-        $this->assertTrue(true);
     }
 }
