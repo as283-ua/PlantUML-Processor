@@ -42,8 +42,8 @@ class PlantUmlProcessor{
         $classes = $data->Class;
         $relations = $data->Association;
 
-        $result->classes = self::buildClasses($classes);
-        $result->relations = self::buildRelations($relations, []);
+        list($result->classes, $xmiIdIndex) = self::buildClasses($classes);
+        $result->relations = self::buildRelations($relations, $xmiIdIndex);
 
         return $result;
     }
@@ -55,24 +55,32 @@ class PlantUmlProcessor{
 
     /**
      * @param \SimpleXMLElement[] $classes
-     * @return ClassMetadata[]
+     * @return array [ClassMetadata[], array]. First elements is a list of ClassMetadata objects, second 
+     * is an associative array with the xmi.id as key and the index of the class in the list as value
      */
-    private static function buildClasses($classes){
-        $result = [];
-        foreach ($classes as $classXml) {
+    private static function buildClasses($classesXml){
+        $classes = [];
+        $xmiIdIndex = [];
+
+        $i = 0;
+        foreach ($classesXml as $classXml) {
             $classMetadata = ClassMetadata::makeFromXmlElement($classXml);
-            $result[] = $classMetadata;
+            $classes[] = $classMetadata; 
+
+            $xmiIdIndex[$classXml->attributes()->{"xmi.id"}->__toString()] = $i;
+            $i++;
         }
-        return $result;
+        return [$classes, $xmiIdIndex];
     }
 
     /**
      * @param \SimpleXMLElement[] $relations
      * @return Relation[]
      */
-    private static function buildRelations($relations, $classIds){
+    private static function buildRelations($relationsXml, $classIds){
+        // print_r($relationsXml);
         $result = [];
-        foreach ($relations as $relationXml) {
+        foreach ($relationsXml as $relationXml) {
             $relation = new Relation();
             $result[] = $relation;
         }

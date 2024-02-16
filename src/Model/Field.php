@@ -39,13 +39,9 @@ class Field {
             $result->visibility = null;
             return $result;
         }
-
+        
+        
         // assume if visibility is defined, it's the first element
-        if (Visibility::fromString($details[0]) != null){
-            echo "visibility: " . $result->visibility . "\n";
-        }
-
-
         $nextIndex = $result->visibility != null ? 1 : 0;
 
         if(str_contains($details[$nextIndex], ":")){                        // name: [type]

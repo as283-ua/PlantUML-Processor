@@ -3,8 +3,8 @@
 namespace As283\PlantUmlProcessor\Model;
 
 enum Cardinality {
-    case OneToOne;
-    case OneToMany;
-    case ManyToOne;
-    case ManyToMany;
+    case ZeroOrOne;
+    case One;
+    case AtLeastOne;
+    case Any;
 }
