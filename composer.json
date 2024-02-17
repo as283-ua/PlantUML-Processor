@@ -24,6 +24,8 @@
     },
     "archive": {
         "exclude": [
-            "tests/"
-        ]}
+            "tests",
+            "phpunit.xml"
+        ]
+    }
 }
