@@ -116,4 +116,14 @@ class ParseTest extends TestCase
         $this->assertEquals("Rol", $schema->relations[1]->to[0]);
         $this->assertEquals(Cardinality::Any, $schema->relations[1]->to[1]);
     }
+
+    public function testParseOnlyRelations()
+    {
+        $parsed = PlantUmlProcessor::parse("@startuml
+        Bob -- Alice : hello
+        @enduml"
+        );
+        
+        $this->assertTrue($parsed != null);
+    }
 }

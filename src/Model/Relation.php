@@ -31,12 +31,12 @@ class Relation{
 
         $relation->from = [
             $xmiIdClassName[$left->attributes()->type->__toString()], 
-            Cardinality::fromString($right->attributes()->name->__toString())
+            Cardinality::fromString($right->attributes()->name?->__toString())
         ];
 
         $relation->to = [
             $xmiIdClassName[$right->attributes()->type->__toString()], 
-            Cardinality::fromString($left->attributes()->name->__toString())
+            Cardinality::fromString($left->attributes()->name?->__toString())
         ];
 
         $relation->type = RelationType::Association;
