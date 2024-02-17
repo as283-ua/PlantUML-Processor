@@ -2,6 +2,12 @@
     "name": "as283/plant-uml-processor",
     "description": "Library for serializing and parsing PlantUML class diagrams.",
     "type": "library",
+    "authors": [
+        {
+            "name": "Andrejs Sikorskis",
+            "email": "as283@alu.ua.es"
+        }
+    ],
     "require-dev": {
         "phpunit/phpunit": "^10.5"
     },
@@ -16,10 +22,8 @@
             "As283\\PlantUmlProcessor\\Tests\\": "tests/"
         }
     },
-    "authors": [
-        {
-            "name": "Andrejs Sikorskis",
-            "email": "as283@alu.ua.es"
-        }
-    ]
+    "archive": {
+        "exclude": [
+            "tests/"
+        ]}
 }
