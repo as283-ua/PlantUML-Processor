@@ -8,29 +8,24 @@ use PHPUnit\Framework\TestCase;
 
 class SerializeTest extends TestCase
 {
-    public function testSerialize()
-    {
-        PlantUmlProcessor::serialize(null);
-        $this->assertTrue(true);
-    }
-
     public function testSerializeClass()
     {
-        $puml = "@startuml
+        $puml = 
+        "@startuml
         class Direccion{
             string cp
             string localidad
             string provincia
-            string alle
+            string calle
             int numero
         }
             
         class Usuario{
-            int id
-            string email
-            string password
-            string nombre
-            string apikey
+            id: int
+            email: string
+            password: string
+            nombre: string
+            apikey: string
         }
             
         class Rol {
@@ -38,15 +33,15 @@ class SerializeTest extends TestCase
             string nombre
         }
 
-        Direccion \"0, 1\" -- \"1..*\" Usuario
+        Direccion \"0..1\" -- \"1..*\" Usuario
         Usuario \"*\" -- \"1\" Rol
         @enduml";
         $parsed = PlantUmlProcessor::parse($puml);
         
         $serialized = PlantUmlProcessor::serialize($parsed);
 
-        print_r($serialized);
+        $reparsed = PlantUmlProcessor::parse($serialized);
         
-        $this->assertEquals($puml, $serialized);
+        $this->assertEquals($parsed, $reparsed);
     }
 }

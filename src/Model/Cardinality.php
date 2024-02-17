@@ -22,4 +22,13 @@ enum Cardinality {
                 return Cardinality::Any;
         }
     }
+
+    public function toString(){
+        return match ($this) {
+            self::ZeroOrOne => "0..1",
+            self::One => "1",
+            self::AtLeastOne => "1..*",
+            self::Any => "*"
+        };
+    }
 }

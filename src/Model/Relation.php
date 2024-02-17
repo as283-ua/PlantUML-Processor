@@ -45,6 +45,6 @@ class Relation{
     }
 
     public function __toString(){
-        return $this->from[0] . " " . $this->to[1] . " " . $this->type->toString() . " " . $this->from[1] . $this->to[0] . "\n";
+        return $this->from[0] . " \"" . $this->to[1]->toString() . "\" " . $this->type->toString() . " \"" . $this->from[1]->toString() . "\" " . $this->to[0] . "\n";
     }
 }

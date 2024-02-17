@@ -67,7 +67,7 @@ class Field {
             $str .= $this->visibility . " ";
         }
         if($this->type != null){
-            $str .= $this->type . " ";
+            $str .= $this->type->toString() . " ";
         }
         $str .= $this->name;
         return $str;

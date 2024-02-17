@@ -26,4 +26,16 @@ enum Type
             default => null
         };
     }
+
+    public function toString(){
+        return match($this){
+            Type::string => "string",
+            Type::int => "int",
+            Type::float => "float",
+            Type::bool => "bool",
+            Type::double => "double",
+            Type::Date => "Date",
+            Type::DateTime => "DateTime"
+        };
+    }
 }
