@@ -9,10 +9,12 @@
     "autoload": {
         "psr-4": {
             "As283\\PlantUmlProcessor\\": "src/"
-        },
-        "files": [
-            "src/PlantUmlProcessor.php"
-        ]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "As283\\PlantUmlProcessor\\Tests\\": "tests/"
+        }
     },
     "authors": [
         {
