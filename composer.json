@@ -24,8 +24,9 @@
     },
     "archive": {
         "exclude": [
-            "tests",
-            "phpunit.xml"
+            "/tests",
+            "/.gitignore",
+            "/phpunit.xml"
         ]
     }
 }
