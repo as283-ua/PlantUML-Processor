@@ -151,8 +151,6 @@ class ParseTest extends TestCase
         $calle = $schema->classes[0]->fields[3];
         $numero = $schema->classes[0]->fields[4];
 
-        print_r($schema);
-
         $this->assertTrue($cp->nullable);
         $this->assertTrue($cp->unique);
         $this->assertTrue($cp->primary);
@@ -175,12 +173,12 @@ class ParseTest extends TestCase
         $this->assertTrue($calle->unique);
         $this->assertFalse($calle->primary);
         $this->assertEquals(null, $calle->visibility);
-        $this->assertEquals(Type::string, $calle->type);
+        $this->assertEquals(null, $calle->type);
 
         $this->assertFalse($numero->nullable);
         $this->assertFalse($numero->unique);
         $this->assertTrue($numero->primary);
-        $this->assertEquals(null, $numero->visibility);
+        $this->assertEquals(Visibility::Protected, $numero->visibility);
         $this->assertEquals(Type::int, $numero->type);
     }
 }

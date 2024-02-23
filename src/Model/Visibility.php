@@ -8,7 +8,13 @@ enum Visibility {
     case Private;
     case Package;
 
+    /**
+     * @param string $value
+     * @return Visibility|null
+     */
     public static function fromString($value){
+        if($value == null) return null;
+
         $value = strtolower($value);
         return match($value){
             "public" => Visibility::Public,

@@ -159,7 +159,7 @@ class Field {
     public static function makeFromXmlELement($field)
     {
         $result = new Field();
-        $visibility = Visibility::fromString($field->attributes()->visibility);
+
         $details = $field->attributes()->name;
 
         $details = explode(" ", $details);
@@ -180,15 +180,12 @@ class Field {
             return $result;
         }
 
-        if($visibility == null){
-            $visibility = Visibility::fromString($details[0]);
-            if($visibility != null){
-                array_splice($details, 0, 1);
-            }
-        }
-        
+
+        $visibility = Visibility::fromString($field->attributes()->visibility);
+
         $result->visibility = $visibility;
 
+        
         if($details[0] === ">"){
             $result->primary = true;
             array_splice($details, 0, 1);
