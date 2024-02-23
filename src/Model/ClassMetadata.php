@@ -45,6 +45,7 @@ class ClassMetadata
         $fields = $xmlClass->{"Classifier.feature"}->Attribute;
 
         foreach ($fields as $field) {
+            print_r($field);
             $classMetadata->fields[] = Field::makeFromXmlElement($field);
         }
 

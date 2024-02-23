@@ -3,6 +3,7 @@ namespace As283\ArtisanPlantuml\Tests;
 
 use As283\PlantUmlProcessor\Model\Cardinality;
 use As283\PlantUmlProcessor\Model\Type;
+use As283\PlantUmlProcessor\Model\Visibility;
 use As283\PlantUmlProcessor\PlantUmlProcessor;
 use PHPUnit\Framework\TestCase;
 
@@ -125,5 +126,61 @@ class ParseTest extends TestCase
         );
         
         $this->assertTrue($parsed != null);
+    }
+
+    public function testModifiers()
+    {
+        $schemaText = 
+        "@startuml
+        class Direccion{
+            > cp?!: string
+            - > localidad?!: string
+            + string provincia?
+            calle!?
+            # > numero: int
+        }
+        @enduml";
+        $schema = PlantUmlProcessor::parse($schemaText);
+
+        $this->assertTrue($schema != null);
+        $this->assertEquals(1, count($schema->classes));
+
+        $cp = $schema->classes[0]->fields[0];
+        $localidad = $schema->classes[0]->fields[1];
+        $provincia = $schema->classes[0]->fields[2];
+        $calle = $schema->classes[0]->fields[3];
+        $numero = $schema->classes[0]->fields[4];
+
+        print_r($schema);
+
+        $this->assertTrue($cp->nullable);
+        $this->assertTrue($cp->unique);
+        $this->assertTrue($cp->primary);
+        $this->assertEquals(null, $cp->visibility);
+        $this->assertEquals(Type::string, $cp->type);
+
+        $this->assertTrue($localidad->nullable);
+        $this->assertTrue($localidad->unique);
+        $this->assertTrue($localidad->primary);
+        $this->assertEquals(Visibility::Private, $localidad->visibility);
+        $this->assertEquals(Type::string, $localidad->type);
+
+        $this->assertTrue($provincia->nullable);
+        $this->assertFalse($provincia->unique);
+        $this->assertFalse($provincia->primary);
+        $this->assertEquals(Visibility::Public, $provincia->visibility);
+        $this->assertEquals(Type::string, $provincia->type);
+
+        $this->assertTrue($calle->nullable);
+        $this->assertTrue($calle->unique);
+        $this->assertFalse($calle->primary);
+        $this->assertEquals(null, $calle->visibility);
+        $this->assertEquals(Type::string, $calle->type);
+
+        $this->assertFalse($numero->nullable);
+        $this->assertFalse($numero->unique);
+        $this->assertTrue($numero->primary);
+        $this->assertEquals(null, $numero->visibility);
+        $this->assertEquals(Type::int, $numero->type);
     }
 }
