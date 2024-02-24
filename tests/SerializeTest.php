@@ -44,4 +44,41 @@ class SerializeTest extends TestCase
         
         $this->assertEquals($parsed, $reparsed);
     }
+
+    public function testSerializeWithModifiers()
+    {
+        $puml = 
+        "@startuml
+        class Direccion{
+            + string cp
+            localidad: string
+            # string provincia
+            string calle?!
+            > int numero
+        }
+            
+        class Usuario{
+            > id: int
+            email?: string
+            password!: string
+            nombre: string
+            ~ apikey: string
+        }
+            
+        class Rol {
+            > id: int
+            > string nombre
+        }
+
+        Direccion \"0..1\" -- \"1..*\" Usuario
+        Usuario \"*\" -- \"1\" Rol
+        @enduml";
+        $parsed = PlantUmlProcessor::parse($puml);
+        
+        $serialized = PlantUmlProcessor::serialize($parsed);
+
+        $reparsed = PlantUmlProcessor::parse($serialized);
+        
+        $this->assertEquals($parsed, $reparsed);
+    }
 }

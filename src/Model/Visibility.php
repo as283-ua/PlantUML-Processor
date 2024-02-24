@@ -28,4 +28,13 @@ enum Visibility {
             default => null
         };
     }
+
+    public function toString(){
+        return match($this){
+            Visibility::Public => "+",
+            Visibility::Private => "-",
+            Visibility::Protected => "#",
+            Visibility::Package => "~"
+        };
+    }
 }

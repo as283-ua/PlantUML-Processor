@@ -213,12 +213,23 @@ class Field {
     {
         $str = "";
         if($this->visibility != null){
-            $str .= $this->visibility . " ";
+            $str .= $this->visibility->toString() . " ";
         }
-        if($this->type != null){
-            $str .= $this->type->toString() . " ";
+        if($this->primary){
+            $str .= "> ";
         }
+
         $str .= $this->name;
+        if($this->nullable){
+            $str .= "?";
+        }
+        if($this->unique){
+            $str .= "!";
+        }
+
+        if($this->type != null){
+            $str .= ": " . $this->type->toString() . " ";
+        }
         return $str;
     }
 }
