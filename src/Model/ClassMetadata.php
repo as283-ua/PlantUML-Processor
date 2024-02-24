@@ -4,15 +4,27 @@ namespace As283\PlantUmlProcessor\Model;
 
 class ClassMetadata
 {
+    /**
+     * @var string
+     */
     public string $name;
+
     /**
      * @var Field[]
      */
     public $fields;
+
     /**
      * @var Method[]
      */
     public $methods;
+
+    /**
+     * Indexes of the relations containing this class.
+     * The key is the index of the relation in the schema, the value is the Origin in said relation of this class.
+     * @var array<int,Origin>
+     */
+    public $relationIndexes;
 
     public function __construct()
     {

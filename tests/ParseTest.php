@@ -2,6 +2,7 @@
 namespace As283\ArtisanPlantuml\Tests;
 
 use As283\PlantUmlProcessor\Model\Cardinality;
+use As283\PlantUmlProcessor\Model\Origin;
 use As283\PlantUmlProcessor\Model\Type;
 use As283\PlantUmlProcessor\Model\Visibility;
 use As283\PlantUmlProcessor\PlantUmlProcessor;
@@ -180,5 +181,56 @@ class ParseTest extends TestCase
         $this->assertTrue($numero->primary);
         $this->assertEquals(Visibility::Protected, $numero->visibility);
         $this->assertEquals(Type::int, $numero->type);
+    }
+
+    public function testParseRelationIndexes()
+    {
+        $schemaText = 
+        "@startuml
+        class Direccion{
+            cp: string
+            localidad: string
+            provincia: string
+            calle: string
+            numero: int
+        }
+            
+        class Usuario{
+            id: int
+            email: string
+            password: string
+            nombre: string
+            apikey: string
+        }
+            
+        class Rol {
+            id: int
+            nombre: string
+        }
+
+        Direccion \"0, 1\" -- \"1..*\" Usuario
+
+        Usuario \"*\" -- \"1\" Rol
+
+        Usuario \"*\" -- \"*\" Usuario
+        @enduml";
+        $schema = PlantUmlProcessor::parse($schemaText);
+
+        $dir = $schema->classes[0];
+        $user = $schema->classes[1];
+        $rol = $schema->classes[2];
+
+        $this->assertTrue($schema != null);
+        $this->assertEquals(sizeof($dir->relationIndexes), 1);
+        $this->assertEquals($dir->relationIndexes[0], Origin::From);
+
+        $this->assertEquals(sizeof($user->relationIndexes), 3);
+        $this->assertEquals($user->relationIndexes[0], Origin::To);
+        $this->assertEquals($user->relationIndexes[1], Origin::From);
+        $this->assertEquals($user->relationIndexes[2], Origin::SelfAssociation);
+        
+        $this->assertEquals(sizeof($rol->relationIndexes), 1);
+        $this->assertEquals($rol->relationIndexes[1], Origin::To);
+
     }
 }

@@ -34,17 +34,17 @@ class PlantUmlProcessor{
             return null;
         }
 
-        $result = new Schema();
-
         $outputStr = Sanitizer::sanitize($outputStr);
         $xml = simplexml_load_string($outputStr);
         $data = $xml->content->Model->ownedElement;
+        
         $classes = $data->Class;
         $relations = $data->Association;
 
-        list($result->classes, $xmiIdClassName) = self::buildClasses($classes);
-        $result->relations = self::buildRelations($relations, $xmiIdClassName);
+        list($memClasses, $xmiIdClassName) = self::buildClasses($classes);
+        $memRelations = self::buildRelations($relations, $xmiIdClassName);
 
+        $result = Schema::create($memClasses, $memRelations);
         return $result;
     }
 
