@@ -1,6 +1,6 @@
 <?php
 
-namespace As283\PlantUmlProcessor\Logic;
+namespace As283\PlantUmlProcessor\Util;
 
 /**
  * Sanitize the plantuml xml by removing prohibited characters like ":" and simplify by removing "UML" prefixes, etc.

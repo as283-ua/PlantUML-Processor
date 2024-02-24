@@ -3,7 +3,7 @@
 namespace As283\PlantUmlProcessor;
 
 use As283\PlantUmlProcessor\Model\Schema;
-use As283\PlantUmlProcessor\Logic\Sanitizer;
+use As283\PlantUmlProcessor\Util\Sanitizer;
 use As283\PlantUmlProcessor\Model\ClassMetadata;
 use As283\PlantUmlProcessor\Model\Relation;
 
