@@ -93,7 +93,7 @@ class PlantUmlProcessor{
 
     /**
      * @param \SimpleXMLElement[] $classes
-     * @return array{0:ClassMetadata[],{1}:array}. First elements is a list of ClassMetadata objects, second 
+     * @return array{0:array<string,ClassMetadata>,1:array}. First elements is a list of ClassMetadata objects with their names as keys, second 
      * is an associative array with the xmi.id as key and the index of the class in the list as value
      */
     private static function buildClasses($classesXml){
@@ -103,7 +103,7 @@ class PlantUmlProcessor{
         $i = 0;
         foreach ($classesXml as $classXml) {
             $classMetadata = ClassMetadata::makeFromXmlElement($classXml);
-            $classes[] = $classMetadata; 
+            $classes[$classMetadata->name] = $classMetadata; 
 
             $xmiIdClassName[$classXml->attributes()->{"xmi.id"}->__toString()] = $classMetadata->name;
             $i++;

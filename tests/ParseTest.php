@@ -64,11 +64,13 @@ class ParseTest extends TestCase
         $this->assertEquals(3, count($schema->classes));
         $this->assertEquals(2, count($schema->relations));
 
-        $this->assertEquals("Direccion", $schema->classes[0]->name);
-        $this->assertEquals("Usuario", $schema->classes[1]->name);
+        $this->assertNotNull($schema->classes["Direccion"]);
+        $this->assertEquals("Direccion", $schema->classes["Direccion"]->name);
+        $this->assertNotNull($schema->classes["Usuario"]);
+        $this->assertEquals("Usuario", $schema->classes["Usuario"]->name);
 
-        $this->assertEquals("id", $schema->classes[1]->fields[0]->name);
-        $this->assertEquals(Type::int, $schema->classes[1]->fields[0]->type);
+        $this->assertEquals("id", $schema->classes["Usuario"]->fields[0]->name);
+        $this->assertEquals(Type::int, $schema->classes["Usuario"]->fields[0]->type);
     }
 
     public function testParseRelations()
@@ -146,11 +148,11 @@ class ParseTest extends TestCase
         $this->assertTrue($schema != null);
         $this->assertEquals(1, count($schema->classes));
 
-        $cp = $schema->classes[0]->fields[0];
-        $localidad = $schema->classes[0]->fields[1];
-        $provincia = $schema->classes[0]->fields[2];
-        $calle = $schema->classes[0]->fields[3];
-        $numero = $schema->classes[0]->fields[4];
+        $cp = $schema->classes["Direccion"]->fields[0];
+        $localidad = $schema->classes["Direccion"]->fields[1];
+        $provincia = $schema->classes["Direccion"]->fields[2];
+        $calle = $schema->classes["Direccion"]->fields[3];
+        $numero = $schema->classes["Direccion"]->fields[4];
 
         $this->assertTrue($cp->nullable);
         $this->assertTrue($cp->unique);
@@ -216,21 +218,21 @@ class ParseTest extends TestCase
         @enduml";
         $schema = PlantUmlProcessor::parse($schemaText);
 
-        $dir = $schema->classes[0];
-        $user = $schema->classes[1];
-        $rol = $schema->classes[2];
+        $dir = $schema->classes["Direccion"];
+        $user = $schema->classes["Usuario"];
+        $rol = $schema->classes["Rol"];
 
         $this->assertTrue($schema != null);
         $this->assertEquals(sizeof($dir->relationIndexes), 1);
-        $this->assertEquals($dir->relationIndexes[0], Origin::From);
+        $this->assertEquals($dir->relationIndexes[0], "Usuario");
 
         $this->assertEquals(sizeof($user->relationIndexes), 3);
-        $this->assertEquals($user->relationIndexes[0], Origin::To);
-        $this->assertEquals($user->relationIndexes[1], Origin::From);
-        $this->assertEquals($user->relationIndexes[2], Origin::SelfAssociation);
+        $this->assertEquals($user->relationIndexes[0], "Direccion");
+        $this->assertEquals($user->relationIndexes[1], "Rol");
+        $this->assertEquals($user->relationIndexes[2], "Usuario");
         
         $this->assertEquals(sizeof($rol->relationIndexes), 1);
-        $this->assertEquals($rol->relationIndexes[1], Origin::To);
+        $this->assertEquals($rol->relationIndexes[1], "Usuario");
 
     }
 }

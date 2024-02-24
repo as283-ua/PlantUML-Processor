@@ -10,7 +10,8 @@ class Schema
     public $relations;
 
     /**
-     * @var ClassMetadata[]
+     * Key is the class name and value is the ClassMetadata
+     * @var array<string,ClassMetadata>
      */
     public $classes;
 
@@ -27,15 +28,13 @@ class Schema
         $schema->classes = $classes;
         $schema->relations = $relations;
 
-        foreach ($schema->classes as $class) {
+        foreach ($schema->classes as $classname => $class) {
             $i = 0;
             foreach ($schema->relations as $relation) {
-                if($relation->from[0] === $class->name && $relation->to[0] === $class->name){
-                    $class->relationIndexes[$i] = Origin::SelfAssociation;
-                } else if($relation->from[0] === $class->name){
-                    $class->relationIndexes[$i] = Origin::From;
-                } else if($relation->to[0] === $class->name){
-                    $class->relationIndexes[$i] = Origin::To;
+                if($relation->from[0] === $classname){
+                    $class->relationIndexes[$i] = $relation->to[0];
+                } else if($relation->to[0] === $classname){
+                    $class->relationIndexes[$i] = $relation->from[0];
                 }
                 
                 $i++;

@@ -21,8 +21,8 @@ class ClassMetadata
 
     /**
      * Indexes of the relations containing this class.
-     * The key is the index of the relation in the schema, the value is the Origin in said relation of this class.
-     * @var array<int,Origin>
+     * The key is the index of the relation in the schema, the value is the name of the related class.
+     * @var array<int,string>
      */
     public $relationIndexes;
 

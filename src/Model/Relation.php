@@ -2,12 +2,6 @@
 
 namespace As283\PlantUmlProcessor\Model;
 
-enum Origin{
-    case From;
-    case To;
-    case SelfAssociation;
-}
-
 class Relation{
     /**
      * @var array{0: string, 1: Cardinality} First element is the name of the class where the relation starts, second element is the cardinality
