@@ -12,25 +12,21 @@ class ClassMetadata
     /**
      * @var Field[]
      */
-    public $fields;
+    public $fields = [];
 
     /**
      * @var Method[]
      */
-    public $methods;
+    public $methods = [];
 
     /**
      * Indexes of the relations containing this class.
      * The key is the index of the relation in the schema, the value is the name of the related class.
      * @var array<int,string>
      */
-    public $relationIndexes;
+    public $relationIndexes = [];
 
-    public function __construct()
-    {
-        $this->fields = [];
-        $this->methods = [];
-    }
+    public function __construct(){}
 
     public static function make($name, $fields, $methods)
     {
