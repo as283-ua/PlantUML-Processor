@@ -234,5 +234,6 @@ class ParseTest extends TestCase
         $this->assertEquals(sizeof($rol->relationIndexes), 1);
         $this->assertEquals($rol->relationIndexes[1], "Usuario");
 
+        print_r($schema);
     }
 }
