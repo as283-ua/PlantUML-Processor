@@ -2,6 +2,8 @@
 
 namespace As283\PlantUmlProcessor\Model;
 
+use As283\PlantUmlProcessor\Exceptions\RepeatedFieldNameException;
+
 class ClassMetadata
 {
     /**
@@ -40,6 +42,7 @@ class ClassMetadata
     /**
      * @param \SimpleXMLElement $xmlClass
      * @return ClassMetadata
+     * @throws RepeatedFieldNameException
      */
     public static function makeFromXmlElement($xmlClass)
     {
@@ -52,8 +55,15 @@ class ClassMetadata
         $classMetadata->fields = [];
         $fields = $xmlClass->{"Classifier.feature"}->Attribute;
 
+        $fieldNames = [];
+        $i = 0;
         foreach ($fields as $field) {
             $classMetadata->fields[] = Field::makeFromXmlElement($field);
+            if(array_search($classMetadata->fields[$i]->name, $fieldNames) !== false){
+                throw new RepeatedFieldNameException($classMetadata->fields[$i]->name);
+            }
+            $fieldNames[] = $classMetadata->fields[$i]->name;
+            $i++;
         }
 
         //todo: implement for methods

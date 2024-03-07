@@ -2,6 +2,7 @@
 
 namespace As283\PlantUmlProcessor;
 
+use As283\PlantUmlProcessor\Exceptions\RepeatedFieldNameException;
 use As283\PlantUmlProcessor\Model\Schema;
 use As283\PlantUmlProcessor\Util\Sanitizer;
 use As283\PlantUmlProcessor\Model\ClassMetadata;
@@ -11,6 +12,7 @@ class PlantUmlProcessor{
     /**
      * @param string $schema String containing the plantuml schema
      * @return Schema|null Returns a Schema object if the parsing was successful, null otherwise
+     * @throws RepeatedFieldNameException
      */
     public static function parse(string $schema)
     {
@@ -95,6 +97,7 @@ class PlantUmlProcessor{
      * @param \SimpleXMLElement[] $classes
      * @return array{0:array<string,ClassMetadata>,1:array}. First elements is a list of ClassMetadata objects with their names as keys, second 
      * is an associative array with the xmi.id as key and the index of the class in the list as value
+     * @throws RepeatedFieldNameException
      */
     private static function buildClasses($classesXml){
         $classes = [];

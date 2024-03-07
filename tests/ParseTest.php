@@ -6,6 +6,7 @@ use As283\PlantUmlProcessor\Model\Origin;
 use As283\PlantUmlProcessor\Model\Type;
 use As283\PlantUmlProcessor\Model\Visibility;
 use As283\PlantUmlProcessor\PlantUmlProcessor;
+use As283\PlantUmlProcessor\Exceptions\RepeatedFieldNameException;
 use PHPUnit\Framework\TestCase;
 
 class ParseTest extends TestCase
@@ -233,6 +234,22 @@ class ParseTest extends TestCase
         
         $this->assertEquals(sizeof($rol->relationIndexes), 1);
         $this->assertEquals($rol->relationIndexes[1], "Usuario");
+
+        print_r($schema);
+    }
+
+    public function testParseWithSameFieldsInClass(){
+        $schemaText = 
+        "@startuml
+        class Direccion{
+            cp: string
+            cp: string
+            cp: int
+        }
+        @enduml";
+
+        $this->expectException(RepeatedFieldNameException::class);
+        $schema = PlantUmlProcessor::parse($schemaText);
 
         print_r($schema);
     }
