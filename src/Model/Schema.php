@@ -32,9 +32,15 @@ class Schema
             $i = 0;
             foreach ($schema->relations as $relation) {
                 if($relation->from[0] === $classname){
-                    $class->relationIndexes[$i] = $relation->to[0];
+                    if(!array_key_exists($relation->to[0], $class->relatedClasses)){
+                        $class->relatedClasses[$relation->to[0]] = [];
+                    }
+                    $class->relatedClasses[$relation->to[0]][] = $i;
                 } else if($relation->to[0] === $classname){
-                    $class->relationIndexes[$i] = $relation->from[0];
+                    if(!array_key_exists($relation->from[0], $class->relatedClasses)){
+                        $class->relatedClasses[$relation->from[0]] = [];
+                    }
+                    $class->relatedClasses[$relation->from[0]][] = $i;
                 }
                 
                 $i++;

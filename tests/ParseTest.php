@@ -185,8 +185,8 @@ class ParseTest extends TestCase
         $this->assertEquals(Visibility::Protected, $numero->visibility);
         $this->assertEquals(Type::int, $numero->type);
     }
-
-    public function testParseRelationIndexes()
+    
+    public function testParserelatedClasses()
     {
         $schemaText = 
         "@startuml
@@ -224,18 +224,16 @@ class ParseTest extends TestCase
         $rol = $schema->classes["Rol"];
 
         $this->assertTrue($schema != null);
-        $this->assertEquals(sizeof($dir->relationIndexes), 1);
-        $this->assertEquals($dir->relationIndexes[0], "Usuario");
+        $this->assertEquals(sizeof($dir->relatedClasses), 1);
+        $this->assertTrue(array_key_exists("Usuario", $dir->relatedClasses));
 
-        $this->assertEquals(sizeof($user->relationIndexes), 3);
-        $this->assertEquals($user->relationIndexes[0], "Direccion");
-        $this->assertEquals($user->relationIndexes[1], "Rol");
-        $this->assertEquals($user->relationIndexes[2], "Usuario");
+        $this->assertEquals(sizeof($user->relatedClasses), 3);
+        $this->assertTrue(array_key_exists("Direccion", $user->relatedClasses));
+        $this->assertTrue(array_key_exists("Rol", $user->relatedClasses));
+        $this->assertTrue(array_key_exists("Usuario", $user->relatedClasses));
         
-        $this->assertEquals(sizeof($rol->relationIndexes), 1);
-        $this->assertEquals($rol->relationIndexes[1], "Usuario");
-
-        print_r($schema);
+        $this->assertEquals(sizeof($rol->relatedClasses), 1);
+        $this->assertTrue(array_key_exists("Usuario", $rol->relatedClasses));
     }
 
     public function testParseWithSameFieldsInClass(){
@@ -249,8 +247,20 @@ class ParseTest extends TestCase
         @enduml";
 
         $this->expectException(RepeatedFieldNameException::class);
+        PlantUmlProcessor::parse($schemaText);
+    }
+
+    public function testParseNoDatatype(){
+        $schemaText = 
+        "@startuml
+        class Direccion{
+            calle
+        }
+        @enduml";
+
         $schema = PlantUmlProcessor::parse($schemaText);
 
-        print_r($schema);
+        $this->assertTrue($schema != null);
+        $this->assertEquals("calle", $schema->classes["Direccion"]->fields[0]->name);
     }
 }

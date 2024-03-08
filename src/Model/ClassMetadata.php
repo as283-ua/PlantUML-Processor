@@ -22,11 +22,11 @@ class ClassMetadata
     public $methods = [];
 
     /**
-     * Indexes of the relations containing this class.
-     * The key is the index of the relation in the schema, the value is the name of the related class.
-     * @var array<int,string>
+     * Array of related classes with their respective indexes in schema->relations[].
+     * The key is name of the related class, the value is the list of indexes for the relations in the schema.
+     * @var array<string,int[]>
      */
-    public $relationIndexes = [];
+    public $relatedClasses = [];
 
     public function __construct(){}
 
