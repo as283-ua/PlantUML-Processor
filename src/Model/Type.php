@@ -21,8 +21,8 @@ enum Type
             "float" => Type::float,
             "bool" => Type::bool,
             "double" => Type::double,
-            "Date" => Type::Date,
-            "DateTime" => Type::DateTime,
+            "date" => Type::Date,
+            "datetime" => Type::DateTime,
             default => null
         };
     }
