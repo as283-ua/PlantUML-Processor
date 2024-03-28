@@ -13,13 +13,16 @@ enum Type
     case Date;
     case DateTime;
 
-    public static function fromString($type){
+    public static function fromString($type)
+    {
         $type = strtolower($type);
-        return match($type){
+        return match ($type) {
             "string" => Type::string,
             "int" => Type::int,
+            "integer" => Type::int,
             "float" => Type::float,
             "bool" => Type::bool,
+            "boolean" => Type::bool,
             "double" => Type::double,
             "date" => Type::Date,
             "datetime" => Type::DateTime,
@@ -27,15 +30,17 @@ enum Type
         };
     }
 
-    public function toString(){
-        return match($this){
+    public function toString()
+    {
+        return match ($this) {
             Type::string => "string",
             Type::int => "int",
             Type::float => "float",
             Type::bool => "bool",
             Type::double => "double",
             Type::Date => "Date",
-            Type::DateTime => "DateTime"
+            Type::DateTime => "DateTime",
+            default => ""
         };
     }
 }
