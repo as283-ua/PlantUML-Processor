@@ -28,7 +28,9 @@ class ClassMetadata
      */
     public $relatedClasses = [];
 
-    public function __construct(){}
+    public function __construct()
+    {
+    }
 
     public static function make($name, $fields, $methods)
     {
@@ -48,8 +50,6 @@ class ClassMetadata
     {
         $classMetadata = new ClassMetadata();
 
-        // TODO. implement this
-
         $classMetadata->name = $xmlClass->attributes()->name;
 
         $classMetadata->fields = [];
@@ -59,18 +59,17 @@ class ClassMetadata
         $i = 0;
         foreach ($fields as $field) {
             $classMetadata->fields[] = Field::makeFromXmlElement($field);
-            if(array_search($classMetadata->fields[$i]->name, $fieldNames) !== false){
+            if (array_search($classMetadata->fields[$i]->name, $fieldNames) !== false) {
                 throw new RepeatedFieldNameException($classMetadata->fields[$i]->name);
             }
             $fieldNames[] = $classMetadata->fields[$i]->name;
             $i++;
         }
 
-        //todo: implement for methods
         $methods = $xmlClass->{"Classifier.feature"}->Operation;
         $classMetadata->methods = [];
 
-        
+
         return $classMetadata;
     }
 }

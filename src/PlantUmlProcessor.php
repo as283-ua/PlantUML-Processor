@@ -8,7 +8,8 @@ use As283\PlantUmlProcessor\Util\Sanitizer;
 use As283\PlantUmlProcessor\Model\ClassMetadata;
 use As283\PlantUmlProcessor\Model\Relation;
 
-class PlantUmlProcessor{
+class PlantUmlProcessor
+{
     /**
      * @param string $schema String containing the plantuml schema
      * @return Schema|null Returns a Schema object if the parsing was successful, null otherwise
@@ -28,8 +29,8 @@ class PlantUmlProcessor{
 
         exec($command, $output, $exit_status);
 
-        $outputStr = array_reduce($output, function($carry, $item) {
-            return $carry . $item."\n";
+        $outputStr = array_reduce($output, function ($carry, $item) {
+            return $carry . $item . "\n";
         }, "");
 
         if ($exit_status != 0) {
@@ -39,7 +40,7 @@ class PlantUmlProcessor{
         $outputStr = Sanitizer::sanitize($outputStr);
         $xml = simplexml_load_string($outputStr);
         $data = $xml->content->Model->ownedElement;
-        
+
         $classes = $data->Class;
         $relations = $data->Association;
 
@@ -76,7 +77,8 @@ class PlantUmlProcessor{
      * @param ClassMetadata $class
      * @return string
      */
-    private static function serializeClass($class): string{
+    private static function serializeClass($class): string
+    {
         $result = "class " . $class->name . " {\n";
         foreach ($class->fields as $field) {
             $result .= "\t" . $field->__toString() . "\n";
@@ -89,7 +91,8 @@ class PlantUmlProcessor{
      * @param Relation $relation
      * @return string
      */
-    private static function serializeRelation($relation){
+    private static function serializeRelation($relation)
+    {
         return $relation->__toString();
     }
 
@@ -99,17 +102,16 @@ class PlantUmlProcessor{
      * is an associative array with the xmi.id as key and the index of the class in the list as value
      * @throws RepeatedFieldNameException
      */
-    private static function buildClasses($classesXml){
+    private static function buildClasses($classesXml)
+    {
         $classes = [];
         $xmiIdClassName = [];
 
-        $i = 0;
         foreach ($classesXml as $classXml) {
             $classMetadata = ClassMetadata::makeFromXmlElement($classXml);
-            $classes[$classMetadata->name] = $classMetadata; 
+            $classes[$classMetadata->name] = $classMetadata;
 
             $xmiIdClassName[$classXml->attributes()->{"xmi.id"}->__toString()] = $classMetadata->name;
-            $i++;
         }
         return [$classes, $xmiIdClassName];
     }
@@ -119,7 +121,8 @@ class PlantUmlProcessor{
      * @param array[string]int $xmiIdClassName
      * @return Relation[]
      */
-    private static function buildRelations($relationsXml, $xmiIdClassName){
+    private static function buildRelations($relationsXml, $xmiIdClassName)
+    {
         // print_r($relationsXml);
         $result = [];
         foreach ($relationsXml as $relationXml) {
