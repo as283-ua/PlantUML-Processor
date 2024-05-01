@@ -7,6 +7,7 @@ enum Type
 {
     case string;
     case int;
+    case bigint;
     case float;
     case bool;
     case double;
@@ -26,6 +27,7 @@ enum Type
             "double" => Type::double,
             "date" => Type::Date,
             "datetime" => Type::DateTime,
+            "bigint" => Type::bigint,
             default => null
         };
     }
@@ -40,6 +42,7 @@ enum Type
             Type::double => "double",
             Type::Date => "Date",
             Type::DateTime => "DateTime",
+            Type::bigint => "bigint",
             default => ""
         };
     }
