@@ -72,4 +72,14 @@ class ClassMetadata
 
         return $classMetadata;
     }
+
+    public function __toString()
+    {
+        $result = "class " . $this->name . " {\n";
+        foreach ($this->fields as $field) {
+            $result .= "\t" . $field->__toString() . "\n";
+        }
+        $result .= "}";
+        return $result;
+    }
 }

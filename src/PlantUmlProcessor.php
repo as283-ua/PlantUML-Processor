@@ -79,11 +79,7 @@ class PlantUmlProcessor
      */
     private static function serializeClass($class): string
     {
-        $result = "class " . $class->name . " {\n";
-        foreach ($class->fields as $field) {
-            $result .= "\t" . $field->__toString() . "\n";
-        }
-        $result .= "}\n\n";
+        $result = $class->__toString() . "\n\n";
         return $result;
     }
 
