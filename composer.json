@@ -1,5 +1,6 @@
 {
     "name": "as283/plant-uml-processor",
+    "version": "0.1.0",
     "description": "Library for serializing and parsing PlantUML class diagrams.",
     "type": "library",
     "authors": [
